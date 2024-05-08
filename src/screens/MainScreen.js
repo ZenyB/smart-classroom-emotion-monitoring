@@ -10,7 +10,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import {IMG_APPICON, IMG_UPLOAD} from '../assets/images';
+import {IMG_APPICON, IMG_HISTORY, IMG_UPLOAD} from '../assets/images';
 import FONTS from '../constants/font';
 import {COLORS} from '../constants/color';
 import * as FS from 'expo-file-system';
@@ -355,22 +355,27 @@ const MainScreen = ({props, route, navigation}) => {
           alignItems: 'flex-end',
         }}></View>
       <View style={styles.mainView}>
-        <Image source={IMG_APPICON} style={{marginBottom: 30}}></Image>
-        <TouchableOpacity
-          style={
-            !isLoading
-              ? styles.button
-              : [styles.button, {backgroundColor: 'gray'}]
-          }
-          onPress={UploadImage}
-          disabled={isLoading}>
-          <Text style={styles.text}>Upload File</Text>
+        {/* <Image source={IMG_APPICON} style={{marginBottom: 30}}></Image> */}
+        <Text>EmoScan - Classroom Monitoring</Text>
+        <TouchableOpacity onPress={UploadImage} disabled={isLoading}>
+          <Text
+            style={!isLoading ? styles.text : [styles.text, {color: 'gray'}]}>
+            Upload File
+          </Text>
           <Image style={styles.buttonImage} source={IMG_UPLOAD} />
         </TouchableOpacity>
+        <TouchableOpacity onPress={UploadImage} disabled={isLoading}>
+          <Text
+            style={!isLoading ? styles.text : [styles.text, {color: 'gray'}]}>
+            History
+          </Text>
+          <Image style={styles.buttonImage} source={IMG_HISTORY} />
+        </TouchableOpacity>
       </View>
-      <Text style={[styles.waitingText, {opacity: isLoading ? 1 : 0}]}>
+      <Text style={styles.aboutUsText}>About us</Text>
+      {/* <Text style={[styles.waitingText, {opacity: isLoading ? 1 : 0}]}>
         {'Wait for the detection process ... (' + timeLoading + 's)'}
-      </Text>
+      </Text> */}
     </SafeAreaView>
   );
 };
@@ -381,7 +386,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.mainPurple,
+    backgroundColor: COLORS.lightGreen,
   },
   historyImage: {
     width: 40,
@@ -397,15 +402,14 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: FONTS.Lato.Bold,
     fontSize: 30,
-    color: COLORS.lightPurple,
+    color: COLORS.black,
     width: '80%',
-    color: COLORS.mainPurple,
   },
   button: {
     width: '83%',
     height: '11%',
     alignItems: 'center',
-    backgroundColor: COLORS.lightPurple,
+    backgroundColor: COLORS.gray,
     flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -417,11 +421,16 @@ const styles = StyleSheet.create({
     height: 62,
   },
   waitingText: {
-    color: COLORS.lightPurple,
+    color: COLORS.black,
     position: 'absolute',
     bottom: 10,
     fontFamily: FONTS.Lato.Bold,
     fontSize: 20,
+  },
+  aboutUsText: {
+    textDecorationLine: 'underline',
+    color: COLORS.black,
+    fontSize: 30,
   },
 });
 

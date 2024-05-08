@@ -193,6 +193,9 @@ const ShowImageScreen = ({props, route, navigation}) => {
           uri: `data:${content_type};base64,${response.data}`,
         }}
       /> */}
+      <Text style={[styles.text, {fontFamily: FONTS.Lato.Bold}]}>
+        Main Emotion:{' '}
+      </Text>
       <View
         style={{
           flexDirection: 'row',
@@ -202,9 +205,7 @@ const ShowImageScreen = ({props, route, navigation}) => {
           height: scale(80),
         }}>
         <TouchableOpacity style={styles.button} onPress={goBackToHome}>
-          <Text style={[styles.text, {color: COLORS.mainPurple}]}>
-            Back to Home
-          </Text>
+          <Text style={[styles.text, {color: COLORS.gray}]}>Back to Home</Text>
         </TouchableOpacity>
         <Image
           style={{width: 60, height: 80}}
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: COLORS.mainPurple,
+    backgroundColor: COLORS.lightGreen,
   },
   mainView: {
     marginTop: scale(50),
@@ -231,9 +232,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text: {
-    fontFamily: FONTS.Lato.Bold,
+    fontFamily: FONTS.Lato.Medium,
     fontSize: 30,
-    color: COLORS.lightPurple,
+    color: COLORS.black,
   },
   image: {
     height: 50,
@@ -244,8 +245,8 @@ const styles = StyleSheet.create({
   resultImage: {
     marginTop: 20,
     marginBottom: 20,
-    backgroundColor: COLORS.lightPurple,
-    height: '65%',
+    backgroundColor: COLORS.green,
+    height: '25%',
     width: '100%',
     resizeMode: 'contain',
     // borderWidth: 3,
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.lightPurple,
+    backgroundColor: COLORS.gray,
     paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 23,
