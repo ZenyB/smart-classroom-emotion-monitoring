@@ -339,9 +339,9 @@ const MainScreen = ({props, route, navigation}) => {
   //     });
   // };
 
-  useEffect(() => {
-    setCameraRollPer(true), setDisableButton(false);
-  }, []);
+  // useEffect(() => {
+  //   setCameraRollPer(true), setDisableButton(false);
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -351,13 +351,19 @@ const MainScreen = ({props, route, navigation}) => {
           width: '100%',
           marginTop: scale(20),
           alignItems: 'flex-end',
-        }}></View>
+        }}
+      />
       <View style={styles.mainView}>
-        <Image source={IMG_APPICON} style={{marginBottom: 30}}></Image>
-        <Text style={[styles.text, {marginBottom: scale(20)}]}>
+        <Image source={IMG_APPICON} />
+        <Text style={[styles.text, {marginBottom: scale(20), fontSize: 30}]}>
           EmoScan - Classroom Monitoring
         </Text>
-        <TouchableOpacity style={styles.button} disabled={isLoading}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ShowScreen', {navigation});
+          }}
+          style={styles.button}
+          disabled={isLoading}>
           <Text
             style={!isLoading ? styles.text : [styles.text, {color: 'gray'}]}>
             Upload File
@@ -407,7 +413,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: FONTS.Lato.Bold,
-    fontSize: 30,
+    fontSize: 25,
     color: COLORS.black,
     width: '80%',
   },
@@ -421,10 +427,17 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: scale(30),
     borderRadius: 23,
+    borderColor: COLORS.green,
+    borderWidth: 2,
+    shadowColor: COLORS.green,
+    shadowOpacity: 0.8,
+    elevation: 5,
+    shadowRadius: 23,
+    shadowOffset: {width: 1, height: 13},
   },
   buttonImage: {
-    width: 62,
-    height: 62,
+    width: 55,
+    height: 55,
   },
   waitingText: {
     color: COLORS.black,
