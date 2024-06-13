@@ -10,14 +10,14 @@ const Stack = createNativeStackNavigator();
 export function RootNavigation() {
   return (
     <Stack.Navigator initialRouteName="Main">
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Main"
         component={MainScreen}
         options={{
           presentation: 'transparentModal',
           headerShown: false,
         }}
-      /> */}
+      />
       <Stack.Screen
         name="ShowScreen"
         component={ShowImageScreen}

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 //import liraries
+import RNFS from 'react-native-fs';
 import React, {Component, useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -18,7 +20,8 @@ import {COLORS} from '../constants/color';
 
 // import {Buffer} from 'buffer';
 // import axios from 'axios';
-// import {Cloudinary} from '@cloudinary/url-gen';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
 // import * as FileSystem from 'expo-file-system';
 import scale from '../constants/responsive';
 
@@ -27,6 +30,7 @@ const MainScreen = ({props, route, navigation}) => {
   const [cameraRollPer, setCameraRollPer] = useState(null);
   const [disableButton, setDisableButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [file,setFile] = useState({});
   // const [timeLoading, setTimeLoading] = useState(0);
   // const [uri, setUri] = useState();
   // const countRef = useRef(null);
@@ -177,43 +181,83 @@ const MainScreen = ({props, route, navigation}) => {
   //       setTimeLoading(0);
   //     });
   // };
+  const getImagePath = async (fileName) => {
+    const baseDir = RNFS.ExternalStorageDirectoryPath + '/DCIM/Camera/'; // This might vary based on device storage structure
+    const filePath = `${baseDir}${fileName}`;
+  
+    // Check if file exists (optional)
+    const exists = await RNFS.exists(filePath);
+    if (!exists) {
+      console.error('File not found:', filePath);
+      return null;
+    }
+  
+    return filePath;
+  };
+  const pickupMedia = async ()=> {
+    let result = await launchImageLibrary({mediaType: "mixed"});
+    console.log(result);
+    if (!result.didCancel && result.assets && result.assets.length > 0) {
+      const {fileName, uri, type} = result.assets[0];
+      //console.log(uri);
+      const extension = uri.split('.').pop();
+      const name = uri.split('/').pop();
+     // const originPath = result.assets[0].originalPath;
+     const imagePath = await getImagePath(fileName);
+     if (!imagePath) {
+       console.log("null");
+     }
+     console.log(imagePath);
+      console.log(name);
+      const source = {
+        uri,
+        type,
+        name,
+      };
+      console.log(source);
+      setFile(source);
+      //await cloudinaryUploadImage();
+      navigation.navigate('ShowScreen', { uri });
+    }
 
-  // const cloudinaryUploadImage = async photo => {
-  //   const data = new FormData();
-  //   data.append('file', photo);
-  //   data.append('upload_preset', 'videoApp');
-  //   data.append('cloud_name', 'dpej7xgsi');
-  //   fetch('https://api.cloudinary.com/v1_1/dpej7xgsi/image/upload', {
-  //     method: 'POST',
-  //     body: data,
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'multipart/form-data',
-  //     },
-  //   })
-  //     .then(res => res.json())
-  //     .then(async data => {
-  //       console.log(data);
-  //       console.log('ok, go to server');
-  //       console.log(data.url);
-  //       await toServer({
-  //         type: 'image',
-  //         base64: data.url,
-  //         uri: data.url,
-  //       });
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       Alert.alert(
-  //         'Lỗi tải file',
-  //         'Quá trình tải file lên server gặp lỗi, vui lòng thử lại\nStatus code: ' +
-  //           error,
-  //       );
-  //       setIsLoading(false);
-  //       clearInterval(countRef.current);
-  //       setTimeLoading(0);
-  //     });
-  // };
+  }
+  const cloudinaryUploadImage = async () => {
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', 'wq4lylv6');
+    data.append('cloud_name', 'dpej7xgsi');
+    console.log(data.getAll);
+    fetch('https://api.cloudinary.com/v1_1/dpej7xgsi/image/upload', {
+      method: 'POST',
+      body: data,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then(res => res.json())
+      .then(async data => {
+        console.log(data);
+        console.log('ok, go to server');
+        console.log(data.url);
+        // await toServer({
+        //   type: 'image',
+        //   base64: data.url,
+        //   uri: data.url,
+        // });
+      })
+      .catch(error => {
+        console.log(error);
+        Alert.alert(
+          'Lỗi tải file',
+          'Quá trình tải file lên server gặp lỗi, vui lòng thử lại\nStatus code: ' +
+            error,
+        );
+        setIsLoading(false);
+        // clearInterval(countRef.current);
+        // setTimeLoading(0);
+      });
+  };
   // const cloudinaryUpload = async photo => {
   //   const data = new FormData();
   //   data.append('file', photo);
@@ -359,9 +403,7 @@ const MainScreen = ({props, route, navigation}) => {
           EmoScan - Classroom Monitoring
         </Text>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('ShowScreen', {navigation});
-          }}
+          onPress={pickupMedia}
           style={styles.button}
           disabled={isLoading}>
           <Text
