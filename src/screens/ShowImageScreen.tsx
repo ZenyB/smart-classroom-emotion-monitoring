@@ -30,6 +30,7 @@ import Barchart from '../components/BarChart';
 
 // create a component
 const ShowImageScreen = ({props, route, navigation}) => {
+  const { uri } = route.params;
   const [emoString, setEmostring] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [sumEmo, setSumemo] = useState<number>(0);
@@ -164,37 +165,37 @@ const ShowImageScreen = ({props, route, navigation}) => {
     {
       emoFull: 'Neutral',
       emo: 'neu',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Happy',
       emo: 'hap',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Sad',
       emo: 'sad',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Angry',
       emo: 'ang',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Fear',
       emo: 'fear',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Disgust',
       emo: 'dis',
-      amount: 0,
+      amount: 1,
     },
     {
       emoFull: 'Surprise',
       emo: 'sup',
-      amount: 0,
+      amount: 1,
     },
   ];
 
@@ -317,9 +318,10 @@ const ShowImageScreen = ({props, route, navigation}) => {
       ) : (
         <Image
           style={styles.resultImage}
-          // source={{
-          //   uri: `data:${content_type};base64, ${data}`,
-          // }}
+          source={{
+            //uri: `data:${content_type};base64, ${data}`,
+            uri: uri,
+          }}
         ></Image>
       )}
       {/* <Image
